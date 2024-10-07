@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     private const int playerMaxHp = 1000;
     private int playerHP = 1000;
 
-    private List<int> enemiesToSpawn = new List<int> {0, 10, 0};
+    private int[] enemiesToSpawn = {20, 3};
 
     private const int humanityOriginalCount = 8180221;
     private int humansLeft = 8180221; //thousand
@@ -87,7 +87,7 @@ public class GameManager : MonoBehaviour
             if (GetAllEnemies() <= 0 || GetAliveHumansPercentage() <= .9f) //level end
             {
                 level1 = true;
-                enemiesToSpawn = new List<int> { 5, 20, 0 };
+                enemiesToSpawn = new int[] { 5, 20};
                 enemyTypeChangeTimer = 0;
             }
         }
@@ -109,7 +109,7 @@ public class GameManager : MonoBehaviour
             if (GetAllEnemies() <= 10 || GetAliveHumansPercentage() <= .5f)
             {
                 //level2 = true;
-                enemiesToSpawn = new List<int> { Random.Range(0, 30), Random.Range(0, 8), };
+                enemiesToSpawn = new int[] { Random.Range(0, 30), Random.Range(0, 8) };
                 enemySpawnTimer = -15;
                 enemyTypeChangeTimer = 0;
             }
@@ -283,7 +283,7 @@ public class GameManager : MonoBehaviour
 
         int cumulativeCount = 0;
 
-        for (int i = 0; i < enemiesToSpawn.Count; i++)
+        for (int i = 0; i < enemiesToSpawn.Length; i++)
         {
             cumulativeCount += enemiesToSpawn[i];
 
@@ -299,7 +299,10 @@ public class GameManager : MonoBehaviour
     private int GetAllEnemies()
     {
         int res = 0;
-        enemiesToSpawn.ForEach(enemy => { res += enemy; });
+        for (int i = 0; i < enemiesToSpawn.Length; i++)
+        {
+            res += enemiesToSpawn[i];
+        }
 
         return res;
     }
@@ -345,4 +348,13 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(3);
         SceneManager.LoadScene(0);
     }
+
+#if UNITY_EDITOR
+
+    private void OnGUI()
+    {
+        GUILayout.TextArea("Airplanes to spawn:" + enemiesToSpawn[0] + "\nJets to spawn:" + enemiesToSpawn[1]);
+    }
+
+#endif
 }

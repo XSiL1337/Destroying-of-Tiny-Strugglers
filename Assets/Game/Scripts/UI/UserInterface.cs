@@ -45,7 +45,7 @@ public class UserInterface : MonoBehaviour
         }
         defaultPosCam = cam.transform.position;
         restart.onClick.AddListener(()=> { SceneManager.LoadScene(0); });
-        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     // Update is called once per frame

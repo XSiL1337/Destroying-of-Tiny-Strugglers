@@ -42,7 +42,8 @@ QualitySettings:
     resolutionScalingFixedDPIFactor: 1
     customRenderPipeline: {fileID: 11400000, guid: 515bf5debff78f04f9fe5646db6e8f9e,
       type: 2}
-    excludedTargetPlatforms: []
+    excludedTargetPlatforms:
+    - Standalone
   - serializedVersion: 2
     name: Balanced
     pixelLightCount: 1
@@ -81,6 +82,7 @@ QualitySettings:
       type: 2}
     excludedTargetPlatforms:
     - WebGL
+    - Standalone
   - serializedVersion: 2
     name: High Fidelity
     pixelLightCount: 2
