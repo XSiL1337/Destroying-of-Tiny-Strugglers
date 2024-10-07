@@ -45,6 +45,7 @@ public class UserInterface : MonoBehaviour
         }
         defaultPosCam = cam.transform.position;
         restart.onClick.AddListener(()=> { SceneManager.LoadScene(0); });
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
@@ -174,6 +175,7 @@ public class UserInterface : MonoBehaviour
 
     public void ShowWinScreen(string grade)
     {
+        Cursor.lockState = CursorLockMode.None;
         for (int i = 0; i < transform.childCount; i++)
         {
             transform.GetChild(0).gameObject.SetActive(false);

@@ -163,7 +163,7 @@ public class PlayerController : MonoBehaviour
 
             if (!m1 && !m2)
             {
-                Cursor.lockState = CursorLockMode.None;
+                Cursor.lockState = CursorLockMode.Locked;
                 Vector2 temp = rt.anchoredPosition;
                 temp.x = Mathf.Clamp(temp.x + Input.GetAxis("Mouse X") * mouseSensivity, screenBorderOffset, Screen.width - screenBorderOffset);
                 temp.y = Mathf.Clamp(temp.y + Input.GetAxis("Mouse Y") * mouseSensivity, screenBorderOffset, Screen.height - screenBorderOffset);
