@@ -17,8 +17,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Vector2 leftHandOffset;
     [SerializeField] private Vector2 rightHandOffset;
 
-    private float screenBorderOffset = 100f;
-
+    private const float screenBorderDiv = 4f;
+    private const int refResWeight = 1920;
+    private const int refResHeight = 1080;
+    private float borderOffset = 100;
+    private const float playerSizeDivByTwo = 300;
     [SerializeField] private PlayerHitbox leftHB;
     [SerializeField] private PlayerHitbox rightHB;
 
@@ -49,7 +52,7 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         rt= GetComponent<RectTransform>();
-        screenBorderOffset = Screen.height / 4f;
+        //screenBorderOffset = Screen.height / 4f;
     }
 
     private void Start()
@@ -57,15 +60,18 @@ public class PlayerController : MonoBehaviour
         HeadAnimation();
         leftHandOffsetDefault = leftHandOffset;
         rightHandOffsetDefault = rightHandOffset;
+
+        borderOffset = refResHeight / screenBorderDiv;
     }
 
-
+    
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
             justReseted = false;
+
         }
         if (Input.GetKey(KeyCode.Space) && !justReseted)
         {
@@ -163,10 +169,12 @@ public class PlayerController : MonoBehaviour
 
             if (!m1 && !m2)
             {
-                Cursor.lockState = CursorLockMode.None;
+                //Cursor.lockState = CursorLockMode.Locked;
                 Vector2 temp = rt.anchoredPosition;
-                temp.x = Mathf.Clamp(temp.x + Input.GetAxis("Mouse X") * mouseSensivity, screenBorderOffset, Screen.width - screenBorderOffset);
-                temp.y = Mathf.Clamp(temp.y + Input.GetAxis("Mouse Y") * mouseSensivity, screenBorderOffset, Screen.height - screenBorderOffset);
+                Debug.Log(Screen.width + "x" + Screen.height + " " + borderOffset + "\n" + rt.anchoredPosition);
+
+                temp.x = Mathf.Clamp(temp.x + Input.GetAxis("Mouse X") * mouseSensivity, borderOffset, refResWeight - borderOffset );
+                temp.y = Mathf.Clamp(temp.y + Input.GetAxis("Mouse Y") * mouseSensivity, borderOffset, refResHeight - borderOffset );
                 rt.anchoredPosition = temp;
             }
             else

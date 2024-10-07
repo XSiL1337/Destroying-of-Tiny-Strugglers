@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,12 +13,12 @@ public class GameManager : MonoBehaviour
     private const int playerMaxHp = 1000;
     private int playerHP = 1000;
 
-    private List<int> enemiesToSpawn = new List<int> {0, 10, 0};
+    private int[] enemiesToSpawn = {20, 3};
 
     private const int humanityOriginalCount = 8180221;
     private int humansLeft = 8180221; //thousand
     private const float E = 2.71828f;
-    private const int maxSeroVictimCount = 1000000;
+    private const int maxSeroVictimCount = 1777777;
     private bool level1 = false;
     private float lvl1timer = 15f;
 
@@ -58,12 +59,15 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+
         playerRT = player.GetComponent<RectTransform>();
         Cursor.visible = false;
         rt = GetComponent<RectTransform>();
         ui = UserInterface.instance;
-        ui.UpdateVictims(humanityOriginalCount, humanityOriginalCount, 1f);
+        ui.UpdateVictims(humanityOriginalCount, humanityOriginalCount, 1);
         ui.ChangeHP(playerMaxHp, playerMaxHp, true);
+
+
     }
 
     private void Update()
@@ -87,7 +91,7 @@ public class GameManager : MonoBehaviour
             if (GetAllEnemies() <= 0 || GetAliveHumansPercentage() <= .9f) //level end
             {
                 level1 = true;
-                enemiesToSpawn = new List<int> { 5, 20, 0 };
+                enemiesToSpawn = new int[] { 5, 20};
                 enemyTypeChangeTimer = 0;
             }
         }
@@ -106,10 +110,10 @@ public class GameManager : MonoBehaviour
                 SpawnEnemy(enemyTypeToSpawn);
                 enemySpawnTimer = 0;
             }
-            if (GetAllEnemies() <= 10 || GetAliveHumansPercentage() <= .5f)
+            if (GetAllEnemies() <= 10)
             {
                 //level2 = true;
-                enemiesToSpawn = new List<int> { Random.Range(0, 30), Random.Range(0, 8), };
+                enemiesToSpawn = new int[] { Random.Range(0, 30), Random.Range(0, 8) };
                 enemySpawnTimer = -15;
                 enemyTypeChangeTimer = 0;
             }
@@ -241,22 +245,22 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            if (isMajor) TakeDamage((int)(-arg / 10000f));
+            if (isMajor) TakeDamage((int)(-arg / 7000f));
             ui.UpdateVictims(humansLeft, humansLeft, GetAliveHumansPercentage());
         }
     }
 
     private string GetGrade()
     {
-        if (playerHP >= 1500)
+        if (playerHP >= 900)
         {
             return "<palette>S";
         }
-        if (playerHP >= 1000)
+        if (playerHP >= 500)
         {
             return "<color=yellow>A";
         }
-        if (playerHP >= 500)
+        if (playerHP >= 100)
         {
             return "<color=green>B";
         }
@@ -283,7 +287,7 @@ public class GameManager : MonoBehaviour
 
         int cumulativeCount = 0;
 
-        for (int i = 0; i < enemiesToSpawn.Count; i++)
+        for (int i = 0; i < enemiesToSpawn.Length; i++)
         {
             cumulativeCount += enemiesToSpawn[i];
 
@@ -299,7 +303,10 @@ public class GameManager : MonoBehaviour
     private int GetAllEnemies()
     {
         int res = 0;
-        enemiesToSpawn.ForEach(enemy => { res += enemy; });
+        for (int i = 0; i < enemiesToSpawn.Length; i++)
+        {
+            res += enemiesToSpawn[i];
+        }
 
         return res;
     }
@@ -343,6 +350,22 @@ public class GameManager : MonoBehaviour
     private IEnumerator DeathCor()
     {
         yield return new WaitForSeconds(3);
+        DOTween.KillAll();
         SceneManager.LoadScene(0);
     }
+
+#if UNITY_EDITOR || DEBUG
+
+    private void OnGUI()
+    {
+        GUILayout.TextArea("Airplanes to spawn:" + enemiesToSpawn[0] + "\n" +
+            "Jets to spawn:" + enemiesToSpawn[1] + "\n" +
+            " X:" + Input.GetAxis("Mouse X") +"\n" +
+            "Y:" + Input.GetAxis("Mouse Y") + "\n" +
+            Cursor.lockState.ToString());
+    }
+
+#endif
+
+
 }
