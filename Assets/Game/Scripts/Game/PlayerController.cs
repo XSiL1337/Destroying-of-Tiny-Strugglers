@@ -71,6 +71,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             justReseted = false;
+
         }
         if (Input.GetKey(KeyCode.Space) && !justReseted)
         {
@@ -139,7 +140,7 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetMouseButton(0))
             {
-                //Cursor.lockState = CursorLockMode.Locked;
+                Cursor.lockState = CursorLockMode.Locked;
                 leftHand.DOComplete();
                 leftHand.anchoredPosition += GetMouseDelta() * mouseSensivity;
                 leftHB.SetActive(true);
@@ -153,7 +154,7 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetMouseButton(1))
             {
-                //Cursor.lockState = CursorLockMode.Locked;
+                Cursor.lockState = CursorLockMode.Locked;
                 rightHand.DOComplete();
                 rightHand.anchoredPosition += GetMouseDelta() * mouseSensivity;
                 rightHB.SetActive(true);

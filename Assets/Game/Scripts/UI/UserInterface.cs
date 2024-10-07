@@ -44,8 +44,7 @@ public class UserInterface : MonoBehaviour
             defaultCA = 0.085f;
         }
         defaultPosCam = cam.transform.position;
-        restart.onClick.AddListener(()=> { SceneManager.LoadScene(0); });
-        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
@@ -170,7 +169,6 @@ public class UserInterface : MonoBehaviour
 
     [SerializeField] private GameObject winScreen;
     [SerializeField] private TextMeshProUGUI gradeText;
-    [SerializeField] private Button restart;
 
 
     public void ShowWinScreen(string grade)
@@ -182,8 +180,21 @@ public class UserInterface : MonoBehaviour
 
 
         }
-
+        StartCoroutine(Restart());
         winScreen.SetActive(true);
         gradeText.text = grade;
+    }
+
+    IEnumerator Restart()
+    {
+        while (true)
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+            SceneManager.LoadScene(0); 
+            }
+            yield return null;
+        }
+
     }
 }

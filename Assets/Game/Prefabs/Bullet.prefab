@@ -52,7 +52,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 1
-  damageOnCollide: 2
+  damageOnCollide: 5
   movingDirection: {x: 1, y: 0, z: 0}
   movingSpeed: 4000
   physicsOnDeath: 0
